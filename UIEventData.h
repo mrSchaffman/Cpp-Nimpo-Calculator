@@ -20,27 +20,22 @@
 
 */
 
-#ifndef USER_INTERFACE_H
-#define USER_INTERFACE_H
-#include"Publisher.h"
-#include"UIEventData.h"			// so the the child will gain access directly
+#ifndef UI_EVENT_DATA_H
+#define UI_EVENT_DATA_H
+#include"EventData.h"
+#include<string>
 namespace view
 {
-	class UserInterface : protected utility::Publisher
+	class UIEventData : public utility::EventData
 	{
 	public:
-		// the Name to be used by observer to register to event comming from this class.
-		static const std::string UICommandName;
-	public:
-		virtual void stackChanged() = 0;
-		virtual void postMessage() = 0;
+		UIEventData(const std::string& userInput): uii{userInput}{}
+		const std::string& getEventData()const { return uii; }
 
-		using Publisher::subscribe;
-		using Publisher::unsubscribe;
 	private:
-
+		std::string uii;
 	};
-	// should be added in the .cpp
-	const std::string UserInterface::UICommandName = "CommandEntered";
 }
-#endif // !USER_INTERFACE_H
+#endif // !UI_EVENT_DATA_H
+
+

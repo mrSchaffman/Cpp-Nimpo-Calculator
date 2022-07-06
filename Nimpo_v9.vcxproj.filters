@@ -53,9 +53,6 @@
     <ClInclude Include="Publisher.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Exception.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Observer.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -64,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="UserInterface.h">
       <Filter>Header Files\View</Filter>
+    </ClInclude>
+    <ClInclude Include="UIEventData.h">
+      <Filter>Header Files\View</Filter>
+    </ClInclude>
+    <ClInclude Include="Exception.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
