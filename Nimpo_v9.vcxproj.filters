@@ -62,5 +62,8 @@
     <ClInclude Include="EventData.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="UserInterface.h">
+      <Filter>Header Files\View</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
