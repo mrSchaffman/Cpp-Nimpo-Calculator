@@ -1,3 +1,4 @@
+#pragma once
 /*
 	Copyright (C) 2022  Barth.Feudong
 	Author can be contacted here: <https://github.com/mrSchaffman/Cpp-Nimpo-Calculator>
@@ -18,17 +19,31 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 */
-#include <iostream>
-#include"Cli.h"
-
-int main()
+#ifndef CLI_H
+#define CLI_H
+#include"UserInterface.h"
+#include<istream>
+#include<ostream>
+namespace view
 {
-    std::cout << "Hello World!\n";
-	
-	view::Cli cli{ std::cin,std::cout };
-	
-	
-	
-	cli.run();
+	class Cli : public UserInterface
+	{
+	public:
+		Cli(std::istream&is,std::ostream&os);
+		~Cli();
+		void run();
+	private:
+		void stackChanged()override;
+		void displayMessage(const std::string& msg)override;
+
+		Cli(const Cli&) = delete;
+		Cli(Cli&&) = delete;
+		Cli& operator=(const Cli&) = delete;
+		Cli& operator=(Cli&&) = delete;
+
+		class CliImpl;
+		std::unique_ptr<CliImpl> impl;
+	};
 }
+#endif // !CLI_H
 

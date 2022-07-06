@@ -18,17 +18,37 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 */
-#include <iostream>
-#include"Cli.h"
 
-int main()
+#include "Tokenizer.h"
+#include<iterator>
+#include<algorithm>
+#include<sstream>
+
+using std::string;
+
+namespace utility
 {
-    std::cout << "Hello World!\n";
-	
-	view::Cli cli{ std::cin,std::cout };
-	
-	
-	
-	cli.run();
-}
+	Tokenizer::Tokenizer(const string& s)
+	{
+		std::istringstream iss{ s };
 
+		tokenize(iss);
+	}
+
+	Tokenizer::Tokenizer(std::istream& is)
+	{
+		tokenize(is);
+	}
+
+
+	Tokenizer::~Tokenizer()
+	{ }
+
+	void Tokenizer::tokenize(std::istream& is)
+	{
+		tokens_.assign(std::istream_iterator<string>{is}, std::istream_iterator<string>{});
+
+		for (auto& i : tokens_)
+			std::transform(i.begin(), i.end(), i.begin(), ::tolower);
+	}
+}

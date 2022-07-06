@@ -19,26 +19,43 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 */
-
-#ifndef USER_INTERFACE_H
-#define USER_INTERFACE_H
-#include"Publisher.h"
-#include"UIEventData.h"			// so the the child will gain access directly
-namespace view
+#ifndef TOKENIZER_H
+#define TOKENIZER_H
+#include<string>
+#include<vector>
+namespace utility
 {
-	class UserInterface : protected utility::Publisher
+
+	class Tokenizer
 	{
 	public:
-		// the Name to be used by observer to register to event comming from this class.
-		static const std::string UICommandName;
-	public:
-		virtual void stackChanged() = 0;
-		virtual void displayMessage(const std::string&) = 0; // postMessage() in the Docu
+		using Token = std::string;
+		using Tokens = std::vector<Token>;
+		using const_iterator = Tokens::const_iterator;
 
-		using Publisher::subscribe;
-		using Publisher::unsubscribe;
+		explicit Tokenizer(const std::string&);
+		explicit Tokenizer(std::istream&);
+		~Tokenizer();
+
+		size_t nTokens() const { return tokens_.size(); }
+
+		const_iterator begin() const { return tokens_.begin(); }
+		const_iterator end() const { return tokens_.end(); }
+
+		const Token& operator[](size_t i) const { return tokens_[i]; }
+
 	private:
+		void tokenize(std::istream&);
+
+		Tokenizer() = delete;
+		Tokenizer(const Tokenizer&) = delete;
+		Tokenizer(Tokenizer&&) = delete;
+		Tokenizer& operator=(const Tokenizer&) = delete;
+		Tokenizer& operator=(Tokenizer&&) = delete;
+
+		Tokens tokens_;
 
 	};
 }
-#endif // !USER_INTERFACE_H
+#endif // !TOKENIZER_H
+
