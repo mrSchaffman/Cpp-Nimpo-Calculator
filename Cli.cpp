@@ -21,6 +21,7 @@
 
 #include "Cli.h"
 #include"Tokenizer.h"
+#include<iterator>
 #include<sstream>
 #include<vector>
 #include<algorithm>
