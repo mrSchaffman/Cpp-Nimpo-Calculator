@@ -44,7 +44,7 @@ namespace control
 	{
 		return getHelpMessageImpl();
 	}
-	void Command::dealocate()
+	void Command::deallocate()
 	{
 		delete this;
 	}
@@ -171,4 +171,7 @@ namespace control
 	{
 		return "Adds one number to the Stack!";
 	}
+
+
+
 }

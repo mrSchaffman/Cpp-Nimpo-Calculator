@@ -22,6 +22,8 @@
 
 #ifndef COMMAND_H
 #define COMMAND_H
+#include<memory>
+
 namespace control
 {
 	// The Command Hierarchy
@@ -36,7 +38,7 @@ namespace control
 		Command* clone()const;
 
 		const char* getHelpMessage()const;
-		virtual void dealocate();
+		virtual void deallocate();
 
 	protected:
 		// only the children of this class are allowed to call this Command Class.
@@ -209,6 +211,29 @@ namespace control
 
 	//class UserInterface;
 	//void RegisterCoreCommands(UserInterface& ui);
+
+
+	// helper
+	inline void CommandDeleter(Command* p)
+	{
+		p->deallocate();
+		return;
+	}
+
+	using CommandPtr = std::unique_ptr<Command, decltype(&CommandDeleter)>;
+
+	template<typename T, typename... Args>
+	auto MakeCommandPtr(Args&&... args)
+	{
+		return CommandPtr{ new T{std::forward<Args>(args)...}, &CommandDeleter };
+	}
+
+	inline auto MakeCommandPtr(Command* p)
+	{
+		return CommandPtr{ p, &CommandDeleter };
+	}
+
+
 }
 #endif // !COMMAND_H
 

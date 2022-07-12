@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="Cli.cpp" />
     <ClCompile Include="Command.cpp" />
+    <ClCompile Include="CommandRepository.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="Publisher.cpp" />
@@ -163,6 +164,7 @@
   <ItemGroup>
     <ClInclude Include="Cli.h" />
     <ClInclude Include="Command.h" />
+    <ClInclude Include="CommandRepository.h" />
     <ClInclude Include="EventData.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="Observer.h" />
