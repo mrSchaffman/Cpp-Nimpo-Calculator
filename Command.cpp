@@ -108,4 +108,67 @@ namespace control
 	BinaryCommand::BinaryCommand(const BinaryCommand &rhs):Command(rhs),m_stackTop{rhs.m_stackTop},m_stackNext{rhs.m_stackNext}
 	{
 	}
+	double CosineCommand::unaryOperation(double d) const noexcept
+	{
+		return std::cos(d);
+	}
+	CosineCommand::CosineCommand(const CosineCommand & s): UnaryCommand{s}
+	{
+	}
+	CosineCommand::~CosineCommand()
+	{
+	}
+	CosineCommand * CosineCommand::cloneImpl() const
+	{
+		return new CosineCommand{ *this };
+	}
+	const char * CosineCommand::getHelpMessageImpl() const noexcept
+	{
+		return "Replace the first element, x, on the stack with cos(x). x must be in radians";
+	}
+	AddCommand::AddCommand(const AddCommand & a) : BinaryCommand{a}
+	{
+	}
+	AddCommand::~AddCommand()
+	{
+	}
+	double AddCommand::binaryOperation(double next, double top) const noexcept
+	{
+		return top + next;
+	}
+	AddCommand * AddCommand::cloneImpl() const
+	{
+		return new AddCommand{ *this };
+	}
+	const char * AddCommand::getHelpMessageImpl() const noexcept
+	{
+		return "Addion the top and the next element onto the Stack!";
+	}
+	EnterNumber::EnterNumber(double d):Command{},m_number{d}
+	{
+	}
+	EnterNumber::EnterNumber(const EnterNumber & en) : Command{en}, m_number{ en.m_number }
+	{
+
+	}
+	EnterNumber::~EnterNumber()
+	{
+	}
+	void EnterNumber::executeImpl() noexcept
+	{
+		model::Stack::getInstance().push(m_number);
+	}
+	void EnterNumber::undoImpl() noexcept
+	{
+		model::Stack::getInstance().pop();
+
+	}
+	EnterNumber * EnterNumber::cloneImpl() const
+	{
+		return new EnterNumber{ *this };
+	}
+	const char * EnterNumber::getHelpMessageImpl() const noexcept
+	{
+		return "Adds one number to the Stack!";
+	}
 }

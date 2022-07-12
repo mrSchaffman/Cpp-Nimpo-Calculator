@@ -52,7 +52,7 @@ namespace control
 		virtual void executeImpl() = 0;
 		virtual void undoImpl() = 0;
 		virtual Command* cloneImpl()const = 0;
-		virtual const char* getHelpMessageImpl()const = 0;
+		virtual const char* getHelpMessageImpl()const noexcept = 0;
 
 		// uneeded Capabiliies
 		Command(Command&&) = delete;
@@ -61,7 +61,6 @@ namespace control
 	};
 
 	// 1st hierarchy Base Classes Binary Command And Unary Commands
-
 	class UnaryCommand : public Command
 	{
 	public:
@@ -72,7 +71,7 @@ namespace control
 		virtual void undoImpl()override;
 
 		// needed for the children of this class
-		virtual double unaryOperation(double) = 0;
+		virtual double unaryOperation(double)const noexcept = 0;
 
 
 		// not needed in this hierarchy
@@ -106,7 +105,7 @@ namespace control
 		virtual void undoImpl()override;
 
 		// needed for the children of this class
-		virtual double binaryOperation(double d,double b) = 0;
+		virtual double binaryOperation(double d,double b)const noexcept = 0;
 
 
 		// not needed in this hierarchy
@@ -132,7 +131,84 @@ namespace control
 		BinaryCommand& operator=(BinaryCommand&&) = delete;
 	};
 
+	// Concrete unary Command
+	class CosineCommand : public UnaryCommand
+	{
+	public:
+		virtual double unaryOperation(double)const noexcept override;
+		CosineCommand() = default;
 
+		// needed for the Clone operation
+		explicit CosineCommand(const CosineCommand& s);
+		~CosineCommand();
+
+
+	private:
+		// from the base Class
+		CosineCommand* cloneImpl()const override;
+		const char* getHelpMessageImpl()const noexcept override;
+
+
+		CosineCommand(CosineCommand&&) = delete;
+		CosineCommand& operator=(const CosineCommand&) = delete;
+		CosineCommand& operator=(CosineCommand&&) = delete;
+
+	};
+
+	// Concrete Binary Commands
+
+	// adds two elements on the stack
+	class AddCommand : public BinaryCommand
+	{
+	public:
+		AddCommand() { }
+
+		// needed for the Clone operation
+		explicit AddCommand(const AddCommand&);
+		~AddCommand();
+
+	private:
+		AddCommand(AddCommand&&) = delete;
+		AddCommand& operator=(const AddCommand&) = delete;
+		AddCommand& operator=(AddCommand&&) = delete;
+
+		double binaryOperation(double next, double top) const noexcept override;
+
+		AddCommand* cloneImpl() const override;
+
+		const char* getHelpMessageImpl() const noexcept override;
+	};
+
+	// Other Concrete Command
+	// accepts a number from input and adds it to the stack
+	// no preconditions are necessary for this command
+	class EnterNumber : public Command
+	{
+	public:
+		explicit EnterNumber(double d);
+		explicit EnterNumber(const EnterNumber&);
+		~EnterNumber();
+
+	private:
+		EnterNumber(EnterNumber&&) = delete;
+		EnterNumber& operator=(const EnterNumber&) = delete;
+		EnterNumber& operator=(EnterNumber&&) = delete;
+
+		// adds the number to the stack
+		void executeImpl() noexcept override;
+
+		// removes the number from the stack
+		void undoImpl() noexcept override;
+
+		EnterNumber* cloneImpl() const override;
+
+		const char* getHelpMessageImpl() const noexcept override;
+
+		double m_number;
+	};
+
+	//class UserInterface;
+	//void RegisterCoreCommands(UserInterface& ui);
 }
 #endif // !COMMAND_H
 
