@@ -52,8 +52,8 @@ namespace model
 	{
 	public:
 		static Stack& getInstance();
-		void push(double, bool suppressChangeEvent = false);
-		double pop(bool suppressChangeEvent = false);
+		void push(double, bool notify = true);
+		double pop(bool notify = true);
 		double top()const;
 		void swap();
 

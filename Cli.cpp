@@ -25,6 +25,7 @@
 #include<sstream>
 #include<vector>
 #include<algorithm>
+#include"Stack.h"
 
 namespace view
 {
@@ -40,6 +41,8 @@ namespace view
 		void run();
 
 	private:
+		void startupMessage();
+
 		std::istream& m_is;
 		std::ostream& m_os;
 		Cli& m_parent;
@@ -71,13 +74,11 @@ namespace view
 
 	void Cli::CliImpl::stackChanged()
 	{
-		std::ostringstream oss;
-		oss.precision(2);
-
 		unsigned int nElements{ 4 };
-
-		// test 
-		size_t size = 0;
+		auto v = model::Stack::getInstance().getElements(nElements);
+		std::ostringstream oss;
+		oss.precision(12);
+		size_t size = model::Stack::getInstance().size();
 		oss << "\n";
 
 		if (size == 0)
@@ -89,10 +90,11 @@ namespace view
 		else
 			oss << "Top " << nElements << " elements of stack (size = " << size << "):\n";
 
+		size_t j{ v.size() };
+		for (auto i = v.rbegin(); i != v.rend(); ++i)
 		{
-			// just for test
-			std::vector<double> test{ 2.5,6.7,45.3,2.4,6 };
-			std::copy_n(std::rbegin(test), nElements, std::ostream_iterator<double>(oss, "\n"));
+			oss << j << ":\t" << *i << "\n";
+			--j;
 		}
 
 		displayMessage(oss.str());
@@ -106,6 +108,8 @@ namespace view
 
 	void Cli::CliImpl::run()
 	{
+		startupMessage();
+
 		for (string line; std::getline(m_is, line, '\n'); )
 		{
 			utility::Tokenizer tokenizer{ line };
@@ -121,6 +125,15 @@ namespace view
 				}
 			}
 		}
+	}
+
+	void Cli::CliImpl::startupMessage()
+	{
+		m_os << "Nimpo v. " << 1 << ", an RPN calculator\n"
+			<< "type 'help' for a list of commnads\n"
+			<< "'exit' to end program\n" << std::endl;
+
+		return;
 	}
 
 }

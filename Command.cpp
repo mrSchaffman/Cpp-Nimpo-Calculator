@@ -21,6 +21,7 @@
 #include "Command.h"
 #include"Stack.h"
 #include"Exception.h"
+#include"CommandRepository.h"
 
 using namespace model;
 namespace control
@@ -171,6 +172,7 @@ namespace control
 	{
 		return "Adds one number to the Stack!";
 	}
+
 
 
 

@@ -20,28 +20,36 @@
 
 */
 
-#ifndef USER_INTERFACE_H
-#define USER_INTERFACE_H
-#include"Publisher.h"
-#include"UIEventData.h"			// so the the child will gain access directly
+#include"CommandDispatcher.h"
+#include"Observer.h"
+
 namespace view
 {
-	class UserInterface : protected utility::Publisher
+	class CommandIssuedObserver : public utility::Observer
 	{
 	public:
-		// the Name to be used by observer to register to event comming from this class.
-		UserInterface() { registerEvent(UICommandName); } // Register the Command Name
-		virtual~UserInterface() = default;
+		explicit CommandIssuedObserver(control::CommandDispatcher& ce);
 
-		static const std::string UICommandName;
-	public:
-		virtual void stackChanged() = 0;
-		virtual void displayMessage(const std::string&) = 0; // postMessage() in the Docu
-
-		using Publisher::subscribe;
-		using Publisher::unsubscribe;
 	private:
+		void notifyImpl(std::shared_ptr<utility::EventData>) override;
 
+		control::CommandDispatcher& m_ce;
 	};
+
 }
-#endif // !USER_INTERFACE_H
+
+namespace model
+{
+	class StackUpdatedObserver : public utility::Observer
+	{
+	public:
+		explicit StackUpdatedObserver(view::UserInterface& ui);
+
+	private:
+		void notifyImpl(std::shared_ptr<utility::EventData>) override;
+
+		view::UserInterface& m_ui;
+	};
+
+}
+

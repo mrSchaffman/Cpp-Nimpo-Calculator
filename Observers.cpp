@@ -1,4 +1,3 @@
-#pragma once
 /*
 	Copyright (C) 2022  Barth.Feudong
 	Author can be contacted here: <https://github.com/mrSchaffman/Cpp-Nimpo-Calculator>
@@ -20,28 +19,47 @@
 
 */
 
-#ifndef USER_INTERFACE_H
-#define USER_INTERFACE_H
-#include"Publisher.h"
-#include"UIEventData.h"			// so the the child will gain access directly
+#include "Observers.h"
+#include"Exception.h"
+#include<memory>
+
 namespace view
 {
-	class UserInterface : protected utility::Publisher
+	CommandIssuedObserver::CommandIssuedObserver(control::CommandDispatcher& ce)
+		: Observer("CommandEntered")
+		, m_ce(ce)
+	{ }
+
+	void CommandIssuedObserver::notifyImpl(std::shared_ptr<utility::EventData> eventData)
 	{
-	public:
-		// the Name to be used by observer to register to event comming from this class.
-		UserInterface() { registerEvent(UICommandName); } // Register the Command Name
-		virtual~UserInterface() = default;
+		auto data = std::dynamic_pointer_cast<view::UIEventData>(eventData);
+		if (!data)
+		{
+			throw utility::Exception("Could not convert CommandData to a command");
+		}
+		else
+		{
+			m_ce.commandEntered(data->getEventData());
+		}
 
-		static const std::string UICommandName;
-	public:
-		virtual void stackChanged() = 0;
-		virtual void displayMessage(const std::string&) = 0; // postMessage() in the Docu
+		return;
+	}
 
-		using Publisher::subscribe;
-		using Publisher::unsubscribe;
-	private:
 
-	};
 }
-#endif // !USER_INTERFACE_H
+
+namespace model
+{
+	StackUpdatedObserver::StackUpdatedObserver(view::UserInterface& ui)
+		: Observer("StackUpdated")
+		, m_ui(ui)
+	{ }
+
+	void StackUpdatedObserver::notifyImpl(std::shared_ptr<utility::EventData>)
+	{
+		m_ui.stackChanged();
+
+		return;
+	}
+
+}

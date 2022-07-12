@@ -1,4 +1,3 @@
-#pragma once
 /*
 	Copyright (C) 2022  Barth.Feudong
 	Author can be contacted here: <https://github.com/mrSchaffman/Cpp-Nimpo-Calculator>
@@ -20,28 +19,37 @@
 
 */
 
-#ifndef USER_INTERFACE_H
-#define USER_INTERFACE_H
-#include"Publisher.h"
-#include"UIEventData.h"			// so the the child will gain access directly
-namespace view
+#ifndef COMMAND_DISPATCHER_H
+#define COMMAND_DISPATCHER_H
+
+#include <string>
+#include <memory>
+#include "Command.h"
+#include"UserInterface.h"
+#include <set>
+
+namespace control {
+
+class CommandDispatcher
 {
-	class UserInterface : protected utility::Publisher
-	{
-	public:
-		// the Name to be used by observer to register to event comming from this class.
-		UserInterface() { registerEvent(UICommandName); } // Register the Command Name
-		virtual~UserInterface() = default;
+    class CommandDispatcherImpl;
 
-		static const std::string UICommandName;
-	public:
-		virtual void stackChanged() = 0;
-		virtual void displayMessage(const std::string&) = 0; // postMessage() in the Docu
+public:
+    explicit CommandDispatcher(view::UserInterface& ui);
+    ~CommandDispatcher();
 
-		using Publisher::subscribe;
-		using Publisher::unsubscribe;
-	private:
+    void commandEntered(const std::string& command);
 
-	};
+private:
+    CommandDispatcher(const CommandDispatcher&) = delete;
+    CommandDispatcher(CommandDispatcher&&) = delete;
+    CommandDispatcher& operator=(const CommandDispatcher&) = delete;
+    CommandDispatcher& operator=(CommandDispatcher&&) = delete;
+
+
+    std::unique_ptr<CommandDispatcherImpl> pimpl_;
+};
+
 }
-#endif // !USER_INTERFACE_H
+
+#endif

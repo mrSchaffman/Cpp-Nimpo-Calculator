@@ -145,5 +145,11 @@ namespace utility
 
 	void Publisher::PublisherImpl::registerEvent(const string& eventName)
 	{
+		auto i = m_observers.find(eventName);
+		if (i != m_observers.end())
+			throw Exception{ "Event already registered" };
+
+		m_observers[eventName] = ObserversList{};
+
 	}
 }

@@ -20,13 +20,53 @@
 */
 #include <iostream>
 #include"Cli.h"
+#include"Stack.h"
+#include"Command.h"
+#include"Observers.h"
+#include"CommandRepository.h"
+#include"Exception.h"
+
+using namespace view;
+using namespace model;
+using namespace control;
+using namespace utility;
+
+using namespace std;
+
+void registerCommand(UserInterface& ui, const string& label, CommandPtr c)
+{
+	try
+	{
+		CommandRepository::getInstance().registerCommand(label, std::move(c));
+	}
+	catch (Exception& e)
+	{
+		ui.displayMessage(e.what());
+	}
+
+	return;
+}
+
+void RegisterCoreCommands(UserInterface& ui)
+{
+	registerCommand(ui, "+", MakeCommandPtr<AddCommand>());
+	registerCommand(ui, "cos", MakeCommandPtr<CosineCommand>());
+
+	return;
+}
 
 int main()
 {
-    std::cout << "Hello World!\n";
 	
-	view::Cli cli{ std::cin,std::cout };
-	
+	Cli cli{ cin,cout };
+	RegisterCoreCommands(cli);
+
+	CommandDispatcher ce{ cli };
+
+	cli.subscribe(view::UserInterface::UICommandName, make_unique<CommandIssuedObserver>(ce));
+
+	Stack::getInstance().subscribe(Stack::StackChanged, make_unique<StackUpdatedObserver>(cli));
+
 	
 	
 	cli.run();

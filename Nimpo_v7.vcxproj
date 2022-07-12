@@ -153,9 +153,12 @@
   <ItemGroup>
     <ClCompile Include="Cli.cpp" />
     <ClCompile Include="Command.cpp" />
+    <ClCompile Include="CommandDispatcher.cpp" />
+    <ClCompile Include="CommandManager.cpp" />
     <ClCompile Include="CommandRepository.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="Observers.cpp" />
     <ClCompile Include="Publisher.cpp" />
     <ClCompile Include="Stack.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
@@ -164,10 +167,13 @@
   <ItemGroup>
     <ClInclude Include="Cli.h" />
     <ClInclude Include="Command.h" />
+    <ClInclude Include="CommandDispatcher.h" />
+    <ClInclude Include="CommandManager.h" />
     <ClInclude Include="CommandRepository.h" />
     <ClInclude Include="EventData.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="Observers.h" />
     <ClInclude Include="Publisher.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Tokenizer.h" />

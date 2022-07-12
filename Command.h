@@ -209,10 +209,6 @@ namespace control
 		double m_number;
 	};
 
-	//class UserInterface;
-	//void RegisterCoreCommands(UserInterface& ui);
-
-
 	// helper
 	inline void CommandDeleter(Command* p)
 	{
