@@ -152,18 +152,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cli.cpp" />
+    <ClCompile Include="Command.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="Publisher.cpp" />
+    <ClCompile Include="Stack.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
     <ClCompile Include="UserInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cli.h" />
+    <ClInclude Include="Command.h" />
     <ClInclude Include="EventData.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Publisher.h" />
+    <ClInclude Include="Stack.h" />
     <ClInclude Include="Tokenizer.h" />
     <ClInclude Include="UIEventData.h" />
     <ClInclude Include="UserInterface.h" />

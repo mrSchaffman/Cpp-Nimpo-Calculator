@@ -57,6 +57,12 @@
     <ClCompile Include="UserInterface.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="Stack.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cli.h">
@@ -82,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="UIEventData.h">
       <Filter>Header Files\View</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Header Files\Control</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
