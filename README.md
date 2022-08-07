@@ -3,6 +3,7 @@ This is a Command line Calculator called Nimpo
 Currently only support 5 operations
 
 //-------------------Sample run-----------------------//
+
 Nimpo v. 1, an RPN calculator by Barth. Feudong
 type:
 'help' for a list of commnads
