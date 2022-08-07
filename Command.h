@@ -181,6 +181,28 @@ namespace control
 		const char* getHelpMessageImpl() const noexcept override;
 	};
 
+	// subtract two elements on the stack
+	class SubstractCommand : public BinaryCommand
+	{
+	public:
+		SubstractCommand() { }
+
+		// needed for the Clone operation
+		explicit SubstractCommand(const SubstractCommand&);
+		~SubstractCommand();
+
+	private:
+		SubstractCommand(AddCommand&&) = delete;
+		SubstractCommand& operator=(const SubstractCommand&) = delete;
+		SubstractCommand& operator=(SubstractCommand&&) = delete;
+
+		double binaryOperation(double next, double top) const noexcept override;
+
+		SubstractCommand* cloneImpl() const override;
+
+		const char* getHelpMessageImpl() const noexcept override;
+	};
+
 	// Other Concrete Command
 	// accepts a number from input and adds it to the stack
 	// no preconditions are necessary for this command

@@ -176,4 +176,27 @@ namespace control
 
 
 
+	SubstractCommand::SubstractCommand(const SubstractCommand& c):BinaryCommand{c}
+	{
+	}
+
+	SubstractCommand::~SubstractCommand()
+	{
+	}
+
+	double SubstractCommand::binaryOperation(double next, double top) const noexcept
+	{
+		return next - top;
+	}
+
+	SubstractCommand* SubstractCommand::cloneImpl() const
+	{
+		return new SubstractCommand{ *this };
+	}
+
+	const char* SubstractCommand::getHelpMessageImpl() const noexcept
+	{
+		return "Substract one number to the Stack!";
+	}
+
 }
