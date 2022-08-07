@@ -86,7 +86,7 @@ namespace model
 
 	std::vector<double> Stack::getElements(size_t n) const
 	{
-		return std::vector<double>();
+		return impl->getElements(n);
 	}
 
 	void Stack::getElements(size_t n, std::vector<double>&v) const
