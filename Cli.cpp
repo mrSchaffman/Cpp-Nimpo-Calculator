@@ -129,9 +129,11 @@ namespace view
 
 	void Cli::CliImpl::startupMessage()
 	{
-		m_os << "Nimpo v. " << 1 << ", an RPN calculator by Barth. Feudong\n"
-			<< "type:\n'help' for a list of commnads\n"
-			<< "'exit' to end program\n" << std::endl;
+		m_os << "#############################################################\n\n"
+			 << "      Nimpo v. " << 1 << ", an RPN calculator by Barth. Feudong\n\n"
+			 << "#############################################################\n\n" 
+			 << "type:\n'help' for a list of commnads\n"
+			 << "'exit' to end program\n" << std::endl;
 
 		return;
 	}
