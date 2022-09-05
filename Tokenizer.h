@@ -39,6 +39,8 @@ namespace utility
 
 		size_t nTokens() const { return tokens_.size(); }
 
+
+		// in order to use this class in a range for loop
 		const_iterator begin() const { return tokens_.begin(); }
 		const_iterator end() const { return tokens_.end(); }
 

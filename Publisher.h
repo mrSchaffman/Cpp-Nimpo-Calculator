@@ -46,7 +46,7 @@ namespace utility
 		void unsubscribe(const string& eventName, const string& observerName);
 
 	protected:
-		~Publisher();
+		virtual~Publisher();
 		
 		void notify(const string& eventName, shared_ptr<EventData>)const;
 
