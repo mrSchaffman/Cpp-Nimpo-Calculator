@@ -49,7 +49,7 @@ namespace utility
 	Publisher::Publisher()
 	{
 #ifdef DEBUG_MODE
-		logToConsole("(): Ctor");
+		logToConsole("Publisher::Publisher(): Ctor");
 #endif // DEBUG_MODE
 
 		impl = std::make_unique<PublisherImpl>();
@@ -57,7 +57,7 @@ namespace utility
 	void Publisher::subscribe(const string& eventName, unique_ptr<Observer> observer)
 	{
 #ifdef DEBUG_MODE
-		logToConsole("(): ", eventName, observer->getName());
+		logToConsole("Publisher::subscribe(): ", eventName, observer->getName());
 #endif // DEBUG_MODE
 
 		impl->subscribe(eventName, std::move(observer));
@@ -65,7 +65,7 @@ namespace utility
 	void Publisher::unsubscribe(const string& eventName, const string& observerName)
 	{
 #ifdef DEBUG_MODE
-		logToConsole("(): ", eventName, observerName);
+		logToConsole("Publisher::unsubscribe(): ", eventName, observerName);
 #endif // DEBUG_MODE
 
 		return impl->unsubscribe(eventName, observerName);
@@ -73,7 +73,7 @@ namespace utility
 	Publisher::~Publisher()
 	{
 #ifdef DEBUG_MODE
-		logToConsole("(): Dtor");
+		logToConsole("Publisher::~Publisher() ");
 #endif // DEBUG_MODE
 
 		// std::unique_ptr requires a definition of the destructor instead
@@ -85,7 +85,7 @@ namespace utility
 	void Publisher::notify(const string& eventName, shared_ptr<EventData>data) const
 	{
 #ifdef DEBUG_MODE
-		logToConsole("(): ", eventName, data);
+		logToConsole("Publisher::notify(): ", eventName, data);
 #endif // DEBUG_MODE
 
 		impl->notify(eventName, data);
@@ -93,7 +93,7 @@ namespace utility
 	void Publisher::registerEvent(const string& eventName)
 	{
 #ifdef DEBUG_MODE
-		logToConsole("(): ", eventName);
+		logToConsole("Publisher::registerEvent(): ", eventName);
 #endif // DEBUG_MODE
 
 		impl->registerEvent(eventName);

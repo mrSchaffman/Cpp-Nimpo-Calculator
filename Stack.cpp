@@ -20,6 +20,7 @@
 */
 #include "Stack.h"
 #include"Exception.h"
+#include"ConsoleLogger.h"
 #include<deque>
 
 namespace model
@@ -48,6 +49,10 @@ namespace model
 
 	Stack::Stack()
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Stack::Stack()",sizeof(this)," bytes");
+#endif // DEBUG_MODE
+
 		impl = std::make_unique<StackImpl>(*this);
 
 		// register the event populate by the stack model
@@ -56,56 +61,106 @@ namespace model
 	}
 	Stack::~Stack()
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Stack::~Stack()");
+#endif // DEBUG_MODE
+
 	}
 
 	Stack & Stack::getInstance()
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Stack::getInstance()");
+#endif // DEBUG_MODE
+
 		static Stack instance;
 		return instance;
 	}
 
 	void Stack::push(double d, bool suppressChangeEvent)
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Stack::push()", d, suppressChangeEvent);
+#endif // DEBUG_MODE
+
+
 		impl->push(d, suppressChangeEvent);
 	}
 
 	double Stack::pop(bool suppressChangeEvent)
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Stack::pop()");
+#endif // DEBUG_MODE
+
 		return impl->pop(suppressChangeEvent);
 	}
 
 	double Stack::top() const
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Stack::top()");
+#endif // DEBUG_MODE
+
+
 		return impl->top();
 	}
 
 	void Stack::swap()
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Stack::swap()");
+#endif // DEBUG_MODE
+
+
 		impl->swap();
 	}
 
 	std::vector<double> Stack::getElements(size_t n) const
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Stack::getElements(n)","n = ", n);
+#endif // DEBUG_MODE
+
+
 		return impl->getElements(n);
 	}
 
 	void Stack::getElements(size_t n, std::vector<double>&v) const
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Stack::getElements(n,v)", "n = ", n, "vector size = ", v.size());// , std::to_string(d), v);
+#endif // DEBUG_MODE
+
+
 		impl->getElements(n, v);
 	}
 
 	size_t Stack::size() const
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Stack::size()");
+#endif // DEBUG_MODE
+
+
 		return impl->size();
 	}
 
 	void Stack::clear() const
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Stack::clear()");
+#endif // DEBUG_MODE
+
+
 		impl->clear();
 	}
 
 	Stack::StackImpl::StackImpl(const Stack & p): parent{p}
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Stack::StackImpl::StackImpl()",sizeof(this)," bytes");
+#endif // DEBUG_MODE
 
 	}
 
@@ -202,6 +257,10 @@ namespace model
 
 	const char * StackEventData::getMessage() const
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("StackEventData::getMessage() ","()");
+#endif // DEBUG_MODE
+
 		return getMessage(er);
 	}
 

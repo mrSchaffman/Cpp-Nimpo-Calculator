@@ -1,7 +1,8 @@
 #pragma once
 #include"Logger.h"
+#include<sstream>
 #include<Windows.h>
-#include<debugapi.h>
+
 namespace utility
 {
 #ifdef DEBUG_MODE
@@ -12,11 +13,12 @@ namespace utility
 		~ConsoleLogger() = default;
 
 		void log(LogLevel level, const std::string& s) override {};
+
 		template<typename...Args>
 		static void log(const Args&...args)
 		{
 			std::ostringstream oss;
-			((oss << args<<" "), ...);
+			((oss << args <<" "), ...);
 			oss << "\n";
 			OutputDebugStringA(oss.str().c_str());
 		}
@@ -24,7 +26,8 @@ namespace utility
 		std::ostream& os_;
 	};
 
-#define logToConsole(...) ConsoleLogger::log(__func__,__VA_ARGS__)
+//#define logToConsole(...) ConsoleLogger::log(__func__,__VA_ARGS__)
+#define logToConsole(...) ConsoleLogger::log(__VA_ARGS__)
 
 #else
 

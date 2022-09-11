@@ -20,15 +20,23 @@
 */
 
 #include "Observer.h"
-
+#include"ConsoleLogger.h"
 namespace utility
 {
 	void Observer::notify(std::shared_ptr<EventData> d)
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Observer::notify(s_ptr = ",d,")");
+#endif // DEBUG_MODE
+
 		notifyImpl(d);
 	}
 
 	Observer::~Observer()
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Observer::~Observer()");
+#endif // DEBUG_MODE
+
 	}
 }

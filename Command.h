@@ -203,6 +203,28 @@ namespace control
 		const char* getHelpMessageImpl() const noexcept override;
 	};
 
+	// multiply two elements on the stack
+	class MultiplyCommand : public BinaryCommand
+	{
+	public:
+		MultiplyCommand() { }
+
+		// needed for the Clone operation
+		explicit MultiplyCommand(const MultiplyCommand&);
+		~MultiplyCommand();
+
+	private:
+		MultiplyCommand(AddCommand&&) = delete;
+		MultiplyCommand& operator=(const MultiplyCommand&) = delete;
+		MultiplyCommand& operator=(MultiplyCommand&&) = delete;
+
+		double binaryOperation(double next, double top) const noexcept override;
+
+		MultiplyCommand* cloneImpl() const override;
+
+		const char* getHelpMessageImpl() const noexcept override;
+	};
+
 	// Other Concrete Command
 	// accepts a number from input and adds it to the stack
 	// no preconditions are necessary for this command

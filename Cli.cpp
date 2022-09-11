@@ -26,6 +26,7 @@
 #include<vector>
 #include<algorithm>
 #include"Stack.h"
+#include"ConsoleLogger.h"
 
 namespace view
 {
@@ -50,30 +51,54 @@ namespace view
 
 	Cli::Cli(std::istream& is, std::ostream& os)
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Cli::Cli() ", sizeof(this), " bytes");
+#endif // DEBUG_MODE
+
 		impl = std::make_unique<CliImpl>(*this, is, os);
 	}
 
 	Cli::~Cli()
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Cli::~Cli()");
+#endif // DEBUG_MODE
+
 	}
 
 	void Cli::run()
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Cli::run()");
+#endif // DEBUG_MODE
+
 		impl->run();
 	}
 
 	void Cli::stackChanged()
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Cli::stackChanged()");
+#endif // DEBUG_MODE
+
 		impl->stackChanged();
 	}
 
 	void Cli::displayMessage(const std::string& msg)
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Cli::displayMessage()");
+#endif // DEBUG_MODE
+
 		impl->displayMessage(msg);
 	}
 
 	void Cli::CliImpl::stackChanged()
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Cli::CliImpl::stackChanged()");
+#endif // DEBUG_MODE
+
 		unsigned int nElements{ 4 };
 		auto v = model::Stack::getInstance().getElements(nElements);
 		std::ostringstream oss;
@@ -102,12 +127,20 @@ namespace view
 
 	void Cli::CliImpl::displayMessage(const std::string& msg)
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Cli::CliImpl::displayMessage(s)",msg);
+#endif // DEBUG_MODE
+
 		// print to the Consol
 		m_os << msg << std::endl;
 	}
 
 	void Cli::CliImpl::run()
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Cli::CliImpl::run()");
+#endif // DEBUG_MODE
+
 		startupMessage();
 
 		for (string line; std::getline(m_is, line, '\n'); )
@@ -129,6 +162,10 @@ namespace view
 
 	void Cli::CliImpl::startupMessage()
 	{
+#ifdef DEBUG_MODE
+		utility::logToConsole("Cli::CliImpl::startupMessage()");
+#endif // DEBUG_MODE
+
 		m_os << "#############################################################\n\n"
 			 << "      Nimpo v. " << 1 << ", an RPN calculator by Barth. Feudong\n\n"
 			 << "#############################################################\n\n" 

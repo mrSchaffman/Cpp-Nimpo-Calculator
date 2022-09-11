@@ -1,5 +1,7 @@
 #pragma once
 #include"Logger.h"
+#include<fstream>
+#include<iostream>
 
 namespace utility
 {

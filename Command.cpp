@@ -143,7 +143,7 @@ namespace control
 	}
 	const char * AddCommand::getHelpMessageImpl() const noexcept
 	{
-		return "Addion the top and the next element onto the Stack!";
+		return "Add the top two numbers!";
 	}
 	EnterNumber::EnterNumber(double d):Command{},m_number{d}
 	{
@@ -173,9 +173,6 @@ namespace control
 		return "Adds one number to the Stack!";
 	}
 
-
-
-
 	SubstractCommand::SubstractCommand(const SubstractCommand& c):BinaryCommand{c}
 	{
 	}
@@ -196,7 +193,30 @@ namespace control
 
 	const char* SubstractCommand::getHelpMessageImpl() const noexcept
 	{
-		return "Substract one number to the Stack!";
+		return "Substract one number";
+	}
+
+	MultiplyCommand::MultiplyCommand(const MultiplyCommand&c):BinaryCommand(c)
+	{
+	}
+
+	MultiplyCommand::~MultiplyCommand()
+	{
+	}
+
+	double MultiplyCommand::binaryOperation(double next, double top) const noexcept
+	{
+		return next * top;
+	}
+
+	MultiplyCommand* MultiplyCommand::cloneImpl() const
+	{
+		return new MultiplyCommand{ *this };
+	}
+
+	const char* MultiplyCommand::getHelpMessageImpl() const noexcept
+	{
+		return "Multiply the top two numbers";
 	}
 
 }
