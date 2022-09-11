@@ -77,7 +77,7 @@ namespace control
 	void UnaryCommand::checkPreConditionImpl()const
 	{
 		if (model::Stack::getInstance().size() < 1)
-			throw utility::Exception("Stack must have at least one Element!");
+			throw utility::Exception("Warning: Stack must have at least one Element!");
 
 	}
 	UnaryCommand::UnaryCommand(const UnaryCommand & rhs):Command(rhs),m_stackTop(rhs.m_stackTop)
@@ -103,7 +103,7 @@ namespace control
 	void BinaryCommand::checkPreConditionImpl() const
 	{
 		if (model::Stack::getInstance().size() < 2)
-			throw utility::Exception{ "Stack must have 2 elements" };
+			throw utility::Exception{ "Warning: Stack must have at least 2 elements!" };
 
 	}
 	BinaryCommand::BinaryCommand(const BinaryCommand &rhs):Command(rhs),m_stackTop{rhs.m_stackTop},m_stackNext{rhs.m_stackNext}
@@ -143,7 +143,7 @@ namespace control
 	}
 	const char * AddCommand::getHelpMessageImpl() const noexcept
 	{
-		return "Add the top two numbers!";
+		return "Add the top two numbers";
 	}
 	EnterNumber::EnterNumber(double d):Command{},m_number{d}
 	{
@@ -170,7 +170,7 @@ namespace control
 	}
 	const char * EnterNumber::getHelpMessageImpl() const noexcept
 	{
-		return "Adds one number to the Stack!";
+		return "Enter one number";
 	}
 
 	SubstractCommand::SubstractCommand(const SubstractCommand& c):BinaryCommand{c}
@@ -193,7 +193,7 @@ namespace control
 
 	const char* SubstractCommand::getHelpMessageImpl() const noexcept
 	{
-		return "Substract one number";
+		return "Substract the top tow numbers";
 	}
 
 	MultiplyCommand::MultiplyCommand(const MultiplyCommand&c):BinaryCommand(c)
@@ -217,6 +217,35 @@ namespace control
 	const char* MultiplyCommand::getHelpMessageImpl() const noexcept
 	{
 		return "Multiply the top two numbers";
+	}
+
+	DivideCommand::DivideCommand(const DivideCommand&d):BinaryCommand(d)
+	{
+	}
+
+	DivideCommand::~DivideCommand()
+	{
+	}
+
+	double DivideCommand::binaryOperation(double next, double top) const noexcept
+	{
+		return next / top;
+	}
+
+	DivideCommand* DivideCommand::cloneImpl() const
+	{
+		return new DivideCommand{ *this };
+	}
+
+	void DivideCommand::checkPreConditionImpl() const
+	{
+		if (model::Stack::getInstance().top() == 0.0)
+			throw utility::Exception{ "Warning trying to divide by zero!" };
+	}
+
+	const char* DivideCommand::getHelpMessageImpl() const noexcept
+	{
+		return "Divide the top two numbers";
 	}
 
 }

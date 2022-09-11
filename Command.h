@@ -225,6 +225,29 @@ namespace control
 		const char* getHelpMessageImpl() const noexcept override;
 	};
 
+	// divide two elements on the stack
+	class DivideCommand : public BinaryCommand
+	{
+	public:
+		DivideCommand() { }
+
+		// needed for the Clone operation
+		explicit DivideCommand(const DivideCommand&);
+		~DivideCommand();
+
+	private:
+		DivideCommand(DivideCommand&&) = delete;
+		DivideCommand& operator=(const DivideCommand&) = delete;
+		DivideCommand& operator=(DivideCommand&&) = delete;
+
+		double binaryOperation(double next, double top) const noexcept override;
+	
+		DivideCommand* cloneImpl() const override;
+		void checkPreConditionImpl()const override;
+
+		const char* getHelpMessageImpl() const noexcept override;
+	};
+
 	// Other Concrete Command
 	// accepts a number from input and adds it to the stack
 	// no preconditions are necessary for this command
@@ -272,8 +295,6 @@ namespace control
 	{
 		return CommandPtr{ p, &CommandDeleter };
 	}
-
-
 }
 #endif // !COMMAND_H
 

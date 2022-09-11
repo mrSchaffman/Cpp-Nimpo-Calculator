@@ -53,6 +53,7 @@ void RegisterCoreCommands(UserInterface& ui)
 	registerCommand(ui, "cos", MakeCommandPtr<CosineCommand>());
 	registerCommand(ui, "-", MakeCommandPtr<SubstractCommand>());
 	registerCommand(ui, "*", MakeCommandPtr<MultiplyCommand>());
+	registerCommand(ui, "/", MakeCommandPtr<DivideCommand>());
 
 	return;
 }
@@ -69,8 +70,6 @@ int main()
 
 	Stack::getInstance().subscribe(Stack::StackChanged, make_unique<StackUpdatedObserver>(cli));
 
-	
-	
 	cli.run();
 }
 
