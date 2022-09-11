@@ -22,7 +22,7 @@
 #include "Publisher.h"
 #include"Observer.h"
 #include"EventData.h"
-
+#include"ConsoleLogger.h"
 #include"Exception.h"
 #include<sstream>
 namespace utility
@@ -48,6 +48,10 @@ namespace utility
 
 	Publisher::Publisher()
 	{
+#ifdef DEBUG_MODE
+		logToConsole("Ctor calls.");
+#endif // DEBUG_MODE
+
 		impl = std::make_unique<PublisherImpl>();
 	}
 	void Publisher::subscribe(const string& eventName, unique_ptr<Observer> observer)
@@ -60,10 +64,11 @@ namespace utility
 	}
 	Publisher::~Publisher()
 	{
+
 		// std::unique_ptr requires a definition of the destructor instead
-// of using the default because the destructor must appear in a scope
-// in which the complete definition of the template argument for
-// std::unique_ptr is known
+		// of using the default because the destructor must appear in a scope
+		// in which the complete definition of the template argument for
+		// std::unique_ptr is known
 
 	}
 	void Publisher::notify(const string& eventName, shared_ptr<EventData>data) const

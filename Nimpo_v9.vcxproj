@@ -116,6 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -158,8 +159,11 @@
     <ClInclude Include="CommandDispatcher.h" />
     <ClInclude Include="CommandManager.h" />
     <ClInclude Include="CommandRepository.h" />
+    <ClInclude Include="ConsoleLogger.h" />
     <ClInclude Include="EventData.h" />
     <ClInclude Include="Exception.h" />
+    <ClInclude Include="FileLogger.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Observers.h" />
     <ClInclude Include="Publisher.h" />
