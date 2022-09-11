@@ -16,16 +16,15 @@ namespace utility
 		static void log(const Args&...args)
 		{
 			std::ostringstream oss;
-			((oss << args), ...);
+			((oss << args<<" "), ...);
 			oss << "\n";
-
 			OutputDebugStringA(oss.str().c_str());
 		}
 	private:
 		std::ostream& os_;
 	};
 
-#define logToConsole(...) ConsoleLogger::log(__func__,"():",__VA_ARGS__)
+#define logToConsole(...) ConsoleLogger::log(__func__,__VA_ARGS__)
 
 #else
 

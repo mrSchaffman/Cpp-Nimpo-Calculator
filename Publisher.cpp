@@ -49,21 +49,32 @@ namespace utility
 	Publisher::Publisher()
 	{
 #ifdef DEBUG_MODE
-		logToConsole("Ctor calls.");
+		logToConsole("(): Ctor");
 #endif // DEBUG_MODE
 
 		impl = std::make_unique<PublisherImpl>();
 	}
 	void Publisher::subscribe(const string& eventName, unique_ptr<Observer> observer)
 	{
+#ifdef DEBUG_MODE
+		logToConsole("(): ", eventName, observer->getName());
+#endif // DEBUG_MODE
+
 		impl->subscribe(eventName, std::move(observer));
 	}
 	void Publisher::unsubscribe(const string& eventName, const string& observerName)
 	{
+#ifdef DEBUG_MODE
+		logToConsole("(): ", eventName, observerName);
+#endif // DEBUG_MODE
+
 		return impl->unsubscribe(eventName, observerName);
 	}
 	Publisher::~Publisher()
 	{
+#ifdef DEBUG_MODE
+		logToConsole("(): Dtor");
+#endif // DEBUG_MODE
 
 		// std::unique_ptr requires a definition of the destructor instead
 		// of using the default because the destructor must appear in a scope
@@ -73,10 +84,18 @@ namespace utility
 	}
 	void Publisher::notify(const string& eventName, shared_ptr<EventData>data) const
 	{
+#ifdef DEBUG_MODE
+		logToConsole("(): ", eventName, data);
+#endif // DEBUG_MODE
+
 		impl->notify(eventName, data);
 	}
 	void Publisher::registerEvent(const string& eventName)
 	{
+#ifdef DEBUG_MODE
+		logToConsole("(): ", eventName);
+#endif // DEBUG_MODE
+
 		impl->registerEvent(eventName);
 	}
 
