@@ -150,10 +150,49 @@ namespace control
 		CosineCommand* cloneImpl()const override;
 		const char* getHelpMessageImpl()const noexcept override;
 
-
 		CosineCommand(CosineCommand&&) = delete;
 		CosineCommand& operator=(const CosineCommand&) = delete;
 		CosineCommand& operator=(CosineCommand&&) = delete;
+
+	};
+	class SineCommand : public UnaryCommand
+	{
+	public:
+		double unaryOperation(double)const noexcept override;
+		SineCommand() = default;
+
+		// needed for the Clone operation
+		explicit SineCommand(const SineCommand& s);
+		~SineCommand();
+
+
+	private:
+		// from the base Class
+		SineCommand* cloneImpl()const override;
+		const char* getHelpMessageImpl()const noexcept override;
+
+		SineCommand(SineCommand&&) = delete;
+		SineCommand& operator=(const SineCommand&) = delete;
+		SineCommand& operator=(SineCommand&&) = delete;
+
+	};
+	class TangentCommand : public UnaryCommand
+	{
+	public:
+		double unaryOperation(double)const noexcept override;
+		TangentCommand() = default;
+		explicit TangentCommand(const TangentCommand& s);
+		~TangentCommand();
+
+
+	private:
+		// from the base Class
+		TangentCommand* cloneImpl()const override;
+		const char* getHelpMessageImpl()const noexcept override;
+
+		TangentCommand(TangentCommand&&) = delete;
+		TangentCommand& operator=(const TangentCommand&) = delete;
+		TangentCommand& operator=(TangentCommand&&) = delete;
 
 	};
 
@@ -186,8 +225,6 @@ namespace control
 	{
 	public:
 		SubstractCommand() { }
-
-		// needed for the Clone operation
 		explicit SubstractCommand(const SubstractCommand&);
 		~SubstractCommand();
 
@@ -208,8 +245,6 @@ namespace control
 	{
 	public:
 		MultiplyCommand() { }
-
-		// needed for the Clone operation
 		explicit MultiplyCommand(const MultiplyCommand&);
 		~MultiplyCommand();
 

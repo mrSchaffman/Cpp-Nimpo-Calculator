@@ -248,4 +248,27 @@ namespace control
 		return "Divide the top two numbers";
 	}
 
+	double SineCommand::unaryOperation(double d) const noexcept
+	{
+		return std::sin(d);
+	}
+
+	SineCommand::SineCommand(const SineCommand& s) : UnaryCommand(s)
+	{
+	}
+
+	SineCommand::~SineCommand()
+	{
+	}
+
+	SineCommand* SineCommand::cloneImpl() const
+	{
+		return new SineCommand{ *this };
+	}
+
+	const char* SineCommand::getHelpMessageImpl() const noexcept
+	{
+		return "Replace the first element, x, on the stack with sin(x). x must be in radians";
+	}
+
 }
