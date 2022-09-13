@@ -50,15 +50,19 @@ void registerCommand(UserInterface& ui, const string& label, CommandPtr c)
 void RegisterCoreCommands(UserInterface& ui)
 {
 	registerCommand(ui, "+", MakeCommandPtr<AddCommand>());
+	registerCommand(ui, "-", MakeCommandPtr<SubstractCommand>());
+	registerCommand(ui, "*", MakeCommandPtr<MultiplyCommand>());
+	registerCommand(ui, "/", MakeCommandPtr<DivideCommand>());
+
 	registerCommand(ui, "cos", MakeCommandPtr<CosineCommand>());
 	registerCommand(ui, "arccos", MakeCommandPtr<ACosineCommand>());
 	registerCommand(ui, "arcsin", MakeCommandPtr<ASineCommand>());
 	registerCommand(ui, "arctan", MakeCommandPtr<ATangentCommand>());
 	registerCommand(ui, "sin", MakeCommandPtr<SineCommand>());
 	registerCommand(ui, "tan", MakeCommandPtr<TangentCommand>());
-	registerCommand(ui, "-", MakeCommandPtr<SubstractCommand>());
-	registerCommand(ui, "*", MakeCommandPtr<MultiplyCommand>());
-	registerCommand(ui, "/", MakeCommandPtr<DivideCommand>());
+
+	registerCommand(ui, "swap", MakeCommandPtr<SwapCommand>());
+
 
 	return;
 }

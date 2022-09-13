@@ -363,4 +363,38 @@ namespace control
 		return "Replace the first element, x, on the stack with arctan(x). x must be in radians";
 	}
 
+	SwapCommand::SwapCommand(const SwapCommand& s):Command(s)
+	{
+	}
+
+	SwapCommand::~SwapCommand()
+	{
+	}
+
+	SwapCommand* SwapCommand::cloneImpl() const
+	{
+		return new SwapCommand{ *this };
+	}
+
+	void SwapCommand::checkPreConditionImpl() const
+	{
+		if(model::Stack::getInstance().size() < 2)
+			throw utility::Exception("The Stack must have at least 2 numbers");
+	}
+
+	const char* SwapCommand::getHelpMessageImpl() const noexcept
+	{
+		return "Swap the top tow numbers";
+	}
+
+	void SwapCommand::executeImpl()
+	{
+		model::Stack::getInstance().swap();
+	}
+
+	void SwapCommand::undoImpl()
+	{
+		model::Stack::getInstance().swap();
+	}
+
 }

@@ -347,6 +347,29 @@ namespace control
 		const char* getHelpMessageImpl() const noexcept override;
 	};
 
+	class SwapCommand : public Command
+	{
+	public:
+		SwapCommand() { }
+
+		explicit SwapCommand(const SwapCommand&);
+		~SwapCommand();
+
+	private:
+
+		SwapCommand* cloneImpl() const override;
+		void checkPreConditionImpl()const override;
+		const char* getHelpMessageImpl() const noexcept override;
+		void executeImpl() override;
+		void undoImpl() override;
+		
+	private:
+		SwapCommand(SwapCommand&&) = delete;
+		SwapCommand& operator=(const SwapCommand&) = delete;
+		SwapCommand& operator=(SwapCommand&&) = delete;
+
+	};
+
 	// Other Concrete Command
 	// accepts a number from input and adds it to the stack
 	// no preconditions are necessary for this command
