@@ -314,7 +314,53 @@ namespace control
 
 	const char* ACosineCommand::getHelpMessageImpl() const noexcept
 	{
-		return "Replace the first element, x, on the stack with acos(x). x must be in radians";
+		return "Replace the first element, x, on the stack with arccos(x). x must be in radians";
+	}
+
+	double ASineCommand::unaryOperation(double d) const noexcept
+	{
+		return std::asin(d);
+	}
+
+	ASineCommand::ASineCommand(const ASineCommand& s): UnaryCommand(s)
+	{
+	}
+
+	ASineCommand::~ASineCommand()
+	{
+	}
+
+	ASineCommand* ASineCommand::cloneImpl() const
+	{
+		return new ASineCommand{*this};
+	}
+
+	const char* ASineCommand::getHelpMessageImpl() const noexcept
+	{
+		return "Replace the first element, x, on the stack with arcsin(x). x must be in radians";
+	}
+
+	double ATangentCommand::unaryOperation(double d) const noexcept
+	{
+		return std::atan(d);
+	}
+
+	ATangentCommand::ATangentCommand(const ATangentCommand& s): UnaryCommand(s)
+	{
+	}
+
+	ATangentCommand::~ATangentCommand()
+	{
+	}
+
+	ATangentCommand* ATangentCommand::cloneImpl() const
+	{
+		return new ATangentCommand{ *this };
+	}
+
+	const char* ATangentCommand::getHelpMessageImpl() const noexcept
+	{
+		return "Replace the first element, x, on the stack with arctan(x). x must be in radians";
 	}
 
 }

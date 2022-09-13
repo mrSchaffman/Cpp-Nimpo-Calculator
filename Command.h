@@ -155,6 +155,7 @@ namespace control
 		CosineCommand& operator=(CosineCommand&&) = delete;
 
 	};
+	
 	class ACosineCommand : public UnaryCommand
 	{
 	public:
@@ -176,6 +177,7 @@ namespace control
 		ACosineCommand& operator=(ACosineCommand&&) = delete;
 
 	};
+	
 	class SineCommand : public UnaryCommand
 	{
 	public:
@@ -197,6 +199,27 @@ namespace control
 		SineCommand& operator=(SineCommand&&) = delete;
 
 	};
+	
+	class ASineCommand : public UnaryCommand
+	{
+	public:
+		double unaryOperation(double)const noexcept override;
+		ASineCommand() = default;
+		explicit ASineCommand(const ASineCommand& s);
+		~ASineCommand();
+
+	private:
+		// from the base Class
+		ASineCommand* cloneImpl()const override;
+		const char* getHelpMessageImpl()const noexcept override;
+	
+	private:
+		ASineCommand(ASineCommand&&) = delete;
+		ASineCommand& operator=(const ASineCommand&) = delete;
+		ASineCommand& operator=(ASineCommand&&) = delete;
+
+	};
+	
 	class TangentCommand : public UnaryCommand
 	{
 	public:
@@ -214,6 +237,26 @@ namespace control
 		TangentCommand(TangentCommand&&) = delete;
 		TangentCommand& operator=(const TangentCommand&) = delete;
 		TangentCommand& operator=(TangentCommand&&) = delete;
+
+	};
+
+	class ATangentCommand : public UnaryCommand
+	{
+	public:
+		double unaryOperation(double)const noexcept override;
+		ATangentCommand() = default;
+		explicit ATangentCommand(const ATangentCommand& s);
+		~ATangentCommand();
+
+	private:
+		// from the base Class
+		ATangentCommand* cloneImpl()const override;
+		const char* getHelpMessageImpl()const noexcept override;
+	
+	private:
+		ATangentCommand(ATangentCommand&&) = delete;
+		ATangentCommand& operator=(const ATangentCommand&) = delete;
+		ATangentCommand& operator=(ATangentCommand&&) = delete;
 
 	};
 
