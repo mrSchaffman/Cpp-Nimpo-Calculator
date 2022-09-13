@@ -51,7 +51,9 @@ void RegisterCoreCommands(UserInterface& ui)
 {
 	registerCommand(ui, "+", MakeCommandPtr<AddCommand>());
 	registerCommand(ui, "cos", MakeCommandPtr<CosineCommand>());
+	registerCommand(ui, "arccos", MakeCommandPtr<ACosineCommand>());
 	registerCommand(ui, "sin", MakeCommandPtr<SineCommand>());
+	registerCommand(ui, "tan", MakeCommandPtr<TangentCommand>());
 	registerCommand(ui, "-", MakeCommandPtr<SubstractCommand>());
 	registerCommand(ui, "*", MakeCommandPtr<MultiplyCommand>());
 	registerCommand(ui, "/", MakeCommandPtr<DivideCommand>());

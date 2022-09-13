@@ -137,7 +137,7 @@ namespace control
 	class CosineCommand : public UnaryCommand
 	{
 	public:
-		virtual double unaryOperation(double)const noexcept override;
+		double unaryOperation(double)const noexcept override;
 		CosineCommand() = default;
 
 		// needed for the Clone operation
@@ -153,6 +153,27 @@ namespace control
 		CosineCommand(CosineCommand&&) = delete;
 		CosineCommand& operator=(const CosineCommand&) = delete;
 		CosineCommand& operator=(CosineCommand&&) = delete;
+
+	};
+	class ACosineCommand : public UnaryCommand
+	{
+	public:
+		double unaryOperation(double)const noexcept override;
+		ACosineCommand() = default;
+
+		// needed for the Clone operation
+		explicit ACosineCommand(const ACosineCommand& s);
+		~ACosineCommand();
+
+
+	private:
+		// from the base Class
+		ACosineCommand* cloneImpl()const override;
+		const char* getHelpMessageImpl()const noexcept override;
+
+		ACosineCommand(ACosineCommand&&) = delete;
+		ACosineCommand& operator=(const ACosineCommand&) = delete;
+		ACosineCommand& operator=(ACosineCommand&&) = delete;
 
 	};
 	class SineCommand : public UnaryCommand

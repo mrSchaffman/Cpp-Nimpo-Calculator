@@ -271,4 +271,50 @@ namespace control
 		return "Replace the first element, x, on the stack with sin(x). x must be in radians";
 	}
 
+	double TangentCommand::unaryOperation(double d) const noexcept
+	{
+		return std::tan(d);
+	}
+
+	TangentCommand::TangentCommand(const TangentCommand& s): UnaryCommand(s)
+	{
+	}
+
+	TangentCommand::~TangentCommand()
+	{
+	}
+
+	TangentCommand* TangentCommand::cloneImpl() const
+	{
+		return new TangentCommand{ *this };
+	}
+
+	const char* TangentCommand::getHelpMessageImpl() const noexcept
+	{
+		return "Replace the first element, x, on the stack with tan(x). x must be in radians";
+	}
+
+	double ACosineCommand::unaryOperation(double) const noexcept
+	{
+		return 0.0;
+	}
+
+	ACosineCommand::ACosineCommand(const ACosineCommand& s): UnaryCommand(s)
+	{
+	}
+
+	ACosineCommand::~ACosineCommand()
+	{
+	}
+
+	ACosineCommand* ACosineCommand::cloneImpl() const
+	{
+		return new ACosineCommand{*this};
+	}
+
+	const char* ACosineCommand::getHelpMessageImpl() const noexcept
+	{
+		return "Replace the first element, x, on the stack with acos(x). x must be in radians";
+	}
+
 }
