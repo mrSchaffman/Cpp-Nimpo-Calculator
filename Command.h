@@ -23,6 +23,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 #include<memory>
+#include<stack>
 
 namespace control
 {
@@ -329,34 +330,29 @@ namespace control
 	{
 	public:
 		DivideCommand() { }
-
-		// needed for the Clone operation
 		explicit DivideCommand(const DivideCommand&);
 		~DivideCommand();
+
+	private:
+		double binaryOperation(double next, double top) const noexcept override;
+		DivideCommand* cloneImpl() const override;
+		void checkPreConditionImpl()const override;
+		const char* getHelpMessageImpl() const noexcept override;
 
 	private:
 		DivideCommand(DivideCommand&&) = delete;
 		DivideCommand& operator=(const DivideCommand&) = delete;
 		DivideCommand& operator=(DivideCommand&&) = delete;
-
-		double binaryOperation(double next, double top) const noexcept override;
-	
-		DivideCommand* cloneImpl() const override;
-		void checkPreConditionImpl()const override;
-
-		const char* getHelpMessageImpl() const noexcept override;
 	};
 
 	class SwapCommand : public Command
 	{
 	public:
 		SwapCommand() { }
-
 		explicit SwapCommand(const SwapCommand&);
 		~SwapCommand();
 
 	private:
-
 		SwapCommand* cloneImpl() const override;
 		void checkPreConditionImpl()const override;
 		const char* getHelpMessageImpl() const noexcept override;
@@ -367,7 +363,26 @@ namespace control
 		SwapCommand(SwapCommand&&) = delete;
 		SwapCommand& operator=(const SwapCommand&) = delete;
 		SwapCommand& operator=(SwapCommand&&) = delete;
+	};
 
+	class ClearCommand : public Command
+	{
+	public:
+		ClearCommand() { }
+		explicit ClearCommand(const ClearCommand&);
+		~ClearCommand();
+
+	private:
+		ClearCommand* cloneImpl() const override;
+		const char* getHelpMessageImpl() const noexcept override;
+		void executeImpl() override;
+		void undoImpl() override;
+
+		std::stack<double> m_stack_;
+	private:
+		ClearCommand(ClearCommand&&) = delete;
+		ClearCommand& operator=(const ClearCommand&) = delete;
+		ClearCommand& operator=(ClearCommand&&) = delete;
 	};
 
 	// Other Concrete Command

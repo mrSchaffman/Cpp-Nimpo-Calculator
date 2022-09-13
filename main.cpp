@@ -62,14 +62,13 @@ void RegisterCoreCommands(UserInterface& ui)
 	registerCommand(ui, "tan", MakeCommandPtr<TangentCommand>());
 
 	registerCommand(ui, "swap", MakeCommandPtr<SwapCommand>());
-
+	registerCommand(ui, "clear", MakeCommandPtr<ClearCommand>());
 
 	return;
 }
 
 int main()
 {
-	
 	Cli cli{ cin,cout };
 	RegisterCoreCommands(cli);
 

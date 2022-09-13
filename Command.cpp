@@ -397,4 +397,42 @@ namespace control
 		model::Stack::getInstance().swap();
 	}
 
+	ClearCommand::ClearCommand(const ClearCommand&s):Command(s),m_stack_{}
+	{
+	}
+
+	ClearCommand::~ClearCommand()
+	{
+	}
+
+	ClearCommand* ClearCommand::cloneImpl() const
+	{
+		return new ClearCommand{ *this };
+	}
+
+	const char* ClearCommand::getHelpMessageImpl() const noexcept
+	{
+		return "Clear the Stack";
+	}
+
+	void ClearCommand::executeImpl()
+	{
+		while (model::Stack::getInstance().size() > 0)
+		{
+			double d = model::Stack::getInstance().top();
+			m_stack_.push(d);
+			model::Stack::getInstance().pop(true);
+		}
+	}
+
+	void ClearCommand::undoImpl()
+	{
+		while (!m_stack_.empty())
+		{
+			double d = m_stack_.top();
+			model::Stack::getInstance().push(d);
+			m_stack_.pop();
+		}
+	}
+
 }

@@ -51,6 +51,12 @@ namespace model
 	class Stack : private utility::Publisher
 	{
 	public:
+		static const std::string StackChanged;
+		static const std::string StackError;
+		using Publisher::subscribe;
+		using Publisher::unsubscribe;
+
+	public:
 		static Stack& getInstance();
 		void push(double, bool notify = true);
 		double pop(bool notify = true);
@@ -61,28 +67,21 @@ namespace model
 		std::vector<double> getElements(size_t n) const;
 		void getElements(size_t n, std::vector<double>&) const;
 
-		using Publisher::subscribe;
-		using Publisher::unsubscribe;
-
 		// these are just needed for testing
 		size_t size() const;
 		void clear() const;
 
-		static const std::string StackChanged;
-		static const std::string StackError;
-
-
 	private:
-
 		Stack();
 		~Stack();
+		class StackImpl;
+		std::unique_ptr<StackImpl> impl;
+
+	private:
 		Stack(const Stack&) = delete;
 		Stack(Stack&&) = delete;
 		Stack& operator=(const Stack&) = delete;
 		Stack& operator=(const Stack&&) = delete;
-
-		class StackImpl;
-		std::unique_ptr<StackImpl> impl;
 	};
 
 }
