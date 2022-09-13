@@ -385,6 +385,26 @@ namespace control
 		ClearCommand& operator=(ClearCommand&&) = delete;
 	};
 
+	class DropCommand : public Command
+	{
+	public:
+		DropCommand() { }
+		explicit DropCommand(const DropCommand&);
+		~DropCommand();
+
+	private:
+		DropCommand* cloneImpl() const override;
+		const char* getHelpMessageImpl() const noexcept override;
+		void executeImpl() override;
+		void undoImpl() override;
+
+		double m_droppedNumber_;
+	private:
+		DropCommand(DropCommand&&) = delete;
+		DropCommand& operator=(const DropCommand&) = delete;
+		DropCommand& operator=(DropCommand&&) = delete;
+	};
+
 	// Other Concrete Command
 	// accepts a number from input and adds it to the stack
 	// no preconditions are necessary for this command

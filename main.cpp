@@ -63,6 +63,7 @@ void RegisterCoreCommands(UserInterface& ui)
 
 	registerCommand(ui, "swap", MakeCommandPtr<SwapCommand>());
 	registerCommand(ui, "clear", MakeCommandPtr<ClearCommand>());
+	registerCommand(ui, "drop", MakeCommandPtr<DropCommand>());
 
 	return;
 }

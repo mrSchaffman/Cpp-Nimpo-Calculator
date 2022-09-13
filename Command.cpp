@@ -384,7 +384,7 @@ namespace control
 
 	const char* SwapCommand::getHelpMessageImpl() const noexcept
 	{
-		return "Swap the top tow numbers";
+		return "Swap the top two numbers";
 	}
 
 	void SwapCommand::executeImpl()
@@ -433,6 +433,35 @@ namespace control
 			model::Stack::getInstance().push(d);
 			m_stack_.pop();
 		}
+	}
+
+	DropCommand::DropCommand(const DropCommand&s):Command(s)
+	{
+	}
+
+	DropCommand::~DropCommand()
+	{
+	}
+
+	DropCommand* DropCommand::cloneImpl() const
+	{
+		return new DropCommand{ *this };
+	}
+
+	const char* DropCommand::getHelpMessageImpl() const noexcept
+	{
+		return "Erase the top number";
+	}
+
+	void DropCommand::executeImpl()
+	{
+		m_droppedNumber_ = model::Stack::getInstance().top();
+		model::Stack::getInstance().pop(true);
+	}
+
+	void DropCommand::undoImpl()
+	{
+		model::Stack::getInstance().push(m_droppedNumber_);
 	}
 
 }
