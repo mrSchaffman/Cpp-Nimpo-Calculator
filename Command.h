@@ -32,14 +32,14 @@ namespace control
 	{
 	public:
 		virtual~Command() = default;
+		virtual void deallocate();
+
 		void execute();
 		void undo();
 
 		// The Prototyp pattern
 		Command* clone()const;
-
 		const char* getHelpMessage()const;
-		virtual void deallocate();
 
 	protected:
 		// only the children of this class are allowed to call this Command Class.
@@ -51,12 +51,14 @@ namespace control
 		virtual void checkPostConditionImpl()const;
 		virtual void checkPreConditionImpl()const;
 
+	private:
 		// NVI Pattern, This are the methode to be overriden by the children
-		virtual void executeImpl() = 0;
-		virtual void undoImpl() = 0;
+		virtual void executeImpl()noexcept = 0;			// atomic function (commit-or roll back)
+		virtual void undoImpl()noexcept = 0;			// atomic function (commit-or roll back)
 		virtual Command* cloneImpl()const = 0;
-		virtual const char* getHelpMessageImpl()const noexcept = 0;
+		virtual const char* getHelpMessageImpl()const noexcept = 0; // atomic function (commit-or roll back)
 
+	private:
 		// uneeded Capabiliies
 		Command(Command&&) = delete;
 		Command& operator=(const Command&) = delete;
@@ -70,19 +72,17 @@ namespace control
 		virtual~UnaryCommand() = default;
 
 	private:
-		virtual void executeImpl()override;
-		virtual void undoImpl()override;
+		virtual void executeImpl()noexcept override;
+		virtual void undoImpl()noexcept override;
 
 		// needed for the children of this class
 		virtual double unaryOperation(double)const noexcept = 0;
-
 
 		// not needed in this hierarchy
 		// virtual Command* cloneImpl()const override; 
 		// virtual const char* getHelpMessageImpl()const override;
 
 		double m_stackTop;
-
 
 	protected:
 
@@ -98,35 +98,32 @@ namespace control
 		UnaryCommand& operator=(const UnaryCommand&) = delete;
 		UnaryCommand& operator=(UnaryCommand&&) = delete;
 	};
+
 	class BinaryCommand : public Command
 	{
 	public:
 		virtual~BinaryCommand() = default;
 
-	private:
-		virtual void executeImpl()override;
-		virtual void undoImpl()override;
-
-		// needed for the children of this class
-		virtual double binaryOperation(double d,double b)const noexcept = 0;
-
-
-		// not needed in this hierarchy
-		// virtual Command* cloneImpl()const override; 
-		// virtual const char* getHelpMessageImpl()const override;
-
-		double m_stackTop;
-		double m_stackNext;
-
-
 	protected:
+		BinaryCommand() :m_stackNext{}, m_stackTop{}{};
+		BinaryCommand(const BinaryCommand&);
 
 		virtual void checkPostConditionImpl()const override;
 		virtual void checkPreConditionImpl()const override;
 
-		BinaryCommand() = default;
-		BinaryCommand(const BinaryCommand&);
+	private:
+		virtual void executeImpl()noexcept override;
+		virtual void undoImpl()noexcept override;
 
+		// needed for the children of this class
+		virtual double binaryOperation(double d, double b)const noexcept = 0;
+
+		// not needed in this hierarchy
+		// virtual Command* cloneImpl()const override; 
+		// virtual const char* getHelpMessageImpl()const override;
+	private:
+		double m_stackTop;
+		double m_stackNext;
 
 	private:
 		BinaryCommand(BinaryCommand&&) = delete;
@@ -234,7 +231,9 @@ namespace control
 		// from the base Class
 		TangentCommand* cloneImpl()const override;
 		const char* getHelpMessageImpl()const noexcept override;
-
+		void checkPreConditionImpl()const override;
+	
+	private:
 		TangentCommand(TangentCommand&&) = delete;
 		TangentCommand& operator=(const TangentCommand&) = delete;
 		TangentCommand& operator=(TangentCommand&&) = delete;
@@ -356,8 +355,8 @@ namespace control
 		SwapCommand* cloneImpl() const override;
 		void checkPreConditionImpl()const override;
 		const char* getHelpMessageImpl() const noexcept override;
-		void executeImpl() override;
-		void undoImpl() override;
+		void executeImpl()noexcept override;
+		void undoImpl()noexcept override;
 		
 	private:
 		SwapCommand(SwapCommand&&) = delete;
@@ -368,17 +367,19 @@ namespace control
 	class ClearCommand : public Command
 	{
 	public:
-		ClearCommand() { }
+		ClearCommand() :m_stack_{} { }
 		explicit ClearCommand(const ClearCommand&);
 		~ClearCommand();
 
 	private:
 		ClearCommand* cloneImpl() const override;
 		const char* getHelpMessageImpl() const noexcept override;
-		void executeImpl() override;
-		void undoImpl() override;
+		void executeImpl()noexcept override;
+		void undoImpl()noexcept override;
 
+	private:
 		std::stack<double> m_stack_;
+
 	private:
 		ClearCommand(ClearCommand&&) = delete;
 		ClearCommand& operator=(const ClearCommand&) = delete;
@@ -388,16 +389,17 @@ namespace control
 	class DropCommand : public Command
 	{
 	public:
-		DropCommand() { }
+		DropCommand() :m_droppedNumber_{} { }
 		explicit DropCommand(const DropCommand&);
 		~DropCommand();
 
 	private:
 		DropCommand* cloneImpl() const override;
 		const char* getHelpMessageImpl() const noexcept override;
-		void executeImpl() override;
-		void undoImpl() override;
+		void executeImpl()noexcept override;
+		void undoImpl()noexcept override;
 
+	private:
 		double m_droppedNumber_;
 	private:
 		DropCommand(DropCommand&&) = delete;
@@ -416,21 +418,21 @@ namespace control
 		~EnterNumber();
 
 	private:
-		EnterNumber(EnterNumber&&) = delete;
-		EnterNumber& operator=(const EnterNumber&) = delete;
-		EnterNumber& operator=(EnterNumber&&) = delete;
-
 		// adds the number to the stack
 		void executeImpl() noexcept override;
 
 		// removes the number from the stack
 		void undoImpl() noexcept override;
-
 		EnterNumber* cloneImpl() const override;
-
 		const char* getHelpMessageImpl() const noexcept override;
 
+	private:
 		double m_number;
+
+	private:
+		EnterNumber(EnterNumber&&) = delete;
+		EnterNumber& operator=(const EnterNumber&) = delete;
+		EnterNumber& operator=(EnterNumber&&) = delete;
 	};
 
 	// helper

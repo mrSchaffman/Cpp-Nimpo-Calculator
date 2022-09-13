@@ -20,12 +20,16 @@
 */
 #include "Command.h"
 #include"Stack.h"
+#include<cmath>
 #include"Exception.h"
 #include"CommandRepository.h"
 
 using namespace model;
 namespace control
 {
+	double eps = 1e-12; // arbitrary floating closeness
+	const double M_PI = 3.14;
+
 	void Command::execute()
 	{
 		// like the Template Methode Pattern
@@ -59,12 +63,12 @@ namespace control
 	}
 
 	// UnaryCommand Implementation
-	void UnaryCommand::executeImpl()
+	void UnaryCommand::executeImpl()noexcept
 	{
 		m_stackTop = Stack::getInstance().pop(true);
 		Stack::getInstance().push(unaryOperation(m_stackTop));
 	}
-	void UnaryCommand::undoImpl()
+	void UnaryCommand::undoImpl()noexcept
 	{
 		Stack::getInstance().pop(true);
 		Stack::getInstance().push(m_stackTop);
@@ -83,14 +87,14 @@ namespace control
 	UnaryCommand::UnaryCommand(const UnaryCommand & rhs):Command(rhs),m_stackTop(rhs.m_stackTop)
 	{
 	}
-	void BinaryCommand::executeImpl()
+	void BinaryCommand::executeImpl()noexcept
 	{
 		m_stackTop = model::Stack::getInstance().pop();
 		m_stackNext = model::Stack::getInstance().pop();
 		model::Stack::getInstance().push(binaryOperation(m_stackNext, m_stackTop));
 
 	}
-	void BinaryCommand::undoImpl()
+	void BinaryCommand::undoImpl()noexcept
 	{
 		model::Stack::getInstance().pop();
 		model::Stack::getInstance().push(m_stackNext);
@@ -294,6 +298,23 @@ namespace control
 		return "Replace the first element, x, on the stack with tan(x). x must be in radians";
 	}
 
+	void TangentCommand::checkPreConditionImpl() const
+	{
+		UnaryCommand::checkPreConditionImpl();
+
+		auto v = Stack::getInstance().getElements(1);
+
+		double d{ v.back() + M_PI / 2. };
+		double r{ std::fabs(d) / std::fabs(M_PI) };
+
+		int w{ static_cast<int>(std::floor(r + eps)) };
+
+		r = r - w;
+
+		if (r < eps && r > -eps)
+			throw utility::Exception{ "Infinite result" };
+	}
+
 	double ACosineCommand::unaryOperation(double) const noexcept
 	{
 		return 0.0;
@@ -363,7 +384,7 @@ namespace control
 		return "Replace the first element, x, on the stack with arctan(x). x must be in radians";
 	}
 
-	SwapCommand::SwapCommand(const SwapCommand& s):Command(s)
+	SwapCommand::SwapCommand(const SwapCommand& s) :Command(s)
 	{
 	}
 
@@ -387,17 +408,17 @@ namespace control
 		return "Swap the top two numbers";
 	}
 
-	void SwapCommand::executeImpl()
+	void SwapCommand::executeImpl()noexcept
 	{
 		model::Stack::getInstance().swap();
 	}
 
-	void SwapCommand::undoImpl()
+	void SwapCommand::undoImpl()noexcept
 	{
 		model::Stack::getInstance().swap();
 	}
 
-	ClearCommand::ClearCommand(const ClearCommand&s):Command(s),m_stack_{}
+	ClearCommand::ClearCommand(const ClearCommand& s) :Command(s), m_stack_{}
 	{
 	}
 
@@ -415,7 +436,7 @@ namespace control
 		return "Clear the Stack";
 	}
 
-	void ClearCommand::executeImpl()
+	void ClearCommand::executeImpl()noexcept
 	{
 		while (model::Stack::getInstance().size() > 0)
 		{
@@ -425,7 +446,7 @@ namespace control
 		}
 	}
 
-	void ClearCommand::undoImpl()
+	void ClearCommand::undoImpl()noexcept
 	{
 		while (!m_stack_.empty())
 		{
@@ -435,7 +456,7 @@ namespace control
 		}
 	}
 
-	DropCommand::DropCommand(const DropCommand&s):Command(s)
+	DropCommand::DropCommand(const DropCommand& s) :Command(s), m_droppedNumber_{}
 	{
 	}
 
@@ -453,13 +474,13 @@ namespace control
 		return "Erase the top number";
 	}
 
-	void DropCommand::executeImpl()
+	void DropCommand::executeImpl()noexcept
 	{
 		m_droppedNumber_ = model::Stack::getInstance().top();
 		model::Stack::getInstance().pop(true);
 	}
 
-	void DropCommand::undoImpl()
+	void DropCommand::undoImpl()noexcept
 	{
 		model::Stack::getInstance().push(m_droppedNumber_);
 	}
